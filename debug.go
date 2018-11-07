@@ -51,7 +51,7 @@ func debugPrintLoadTemplate(tmpl *template.Template) {
 
 func debugPrint(format string, values ...interface{}) {
 	if IsDebugging() {
-		fmt.Fprintf(os.Stderr, "[GIN-debug] "+format, values...)
+		fmt.Fprintf(os.Stderr, "[TSL-debug] "+format, values...)
 	}
 }
 

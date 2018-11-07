@@ -11,8 +11,8 @@ import (
 	"github.com/Dark86Chen/tsl/binding"
 )
 
-// ENV_GIN_MODE indicates environment name for gin mode.
-const ENV_GIN_MODE = "GIN_MODE"
+// ENV_TSL_MODE indicates environment name for gin mode.
+const ENV_TSL_MODE = "TSL_MODE"
 
 const (
 	// DebugMode indicates gin mode is debug.
@@ -42,7 +42,7 @@ var ginMode = debugCode
 var modeName = DebugMode
 
 func init() {
-	mode := os.Getenv(ENV_GIN_MODE)
+	mode := os.Getenv(ENV_TSL_MODE)
 	SetMode(mode)
 }
 
