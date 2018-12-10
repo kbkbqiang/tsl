@@ -8,7 +8,7 @@ package render
 
 import (
 	"net/http"
-	
+
 	"github.com/Dark86Chen/tsl/internal/json"
 )
 

@@ -17,9 +17,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Dark86Chen/tsl/tsl-contrib/sse"
 	"github.com/Dark86Chen/tsl/binding"
 	"github.com/Dark86Chen/tsl/render"
+	"github.com/Dark86Chen/tsl/tsl-contrib/sse"
 )
 
 // Content-Type MIME of the most common data formats.

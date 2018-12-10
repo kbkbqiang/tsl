@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	
+
 	"github.com/Dark86Chen/tsl/internal/json"
 )
 

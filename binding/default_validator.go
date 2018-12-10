@@ -7,7 +7,7 @@ package binding
 import (
 	"reflect"
 	"sync"
-	
+
 	"tsl/tslframe/tsl/go-playground/validator.v8"
 )
 

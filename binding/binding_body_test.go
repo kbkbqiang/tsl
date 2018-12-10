@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"io/ioutil"
 	"testing"
-	
-	"tsl/tslframe/tsl/testdata/protoexample"
+
 	"github.com/golang/protobuf/proto"
 	"github.com/stretchr/testify/assert"
 	"github.com/ugorji/go/codec"
+	"tsl/tslframe/tsl/testdata/protoexample"
 )
 
 func TestBindingBody(t *testing.T) {

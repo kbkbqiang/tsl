@@ -2,34 +2,36 @@
 package mqtt
 
 import (
-	"github.com/surgemq/surgemq/service"
-	"github.com/surgemq/message"
+	//"github.com/surgemq/surgemq/service"
+	"github.com/Dark86Chen/tsl/surgemq/surgemq/service"
+	//"github.com/surgemq/message"
 	"fmt"
+	"github.com/Dark86Chen/tsl/surgemq/message"
 )
 
 type MQTT interface {
-	GetMqttClient()(*service.Client, error)
+	GetMqttClient() (*service.Client, error)
 }
 
 type mqtt struct {
-	ConnectUrl 	 string
-	WillQos 	 int 		// 如果遗嘱标志被设置为1，遗嘱QoS的值可以等于0(0x00)，1(0x01)，2(0x02)
-	Version 	 int  		// 0x03 MQIsdp 0x04 MQTT
+	ConnectUrl   string
+	WillQos      int // 如果遗嘱标志被设置为1，遗嘱QoS的值可以等于0(0x00)，1(0x01)，2(0x02)
+	Version      int // 0x03 MQIsdp 0x04 MQTT
 	CleanSession bool
-	KeepAlive	 uint16		// 链接存活时间
-	WillTopic	 string		// 遗嘱标志
-	WillMessage  string     // 遗嘱信息
-	Username 	 string		// 用户名
-	Password 	 string		// 密码
-	Port 		 int 	    // 端口
-	ClientId 	 string     // 链接ID
+	KeepAlive    uint16 // 链接存活时间
+	WillTopic    string // 遗嘱标志
+	WillMessage  string // 遗嘱信息
+	Username     string // 用户名
+	Password     string // 密码
+	Port         int    // 端口
+	ClientId     string // 链接ID
 }
 
 func NewMqtt(m mqtt) mqtt {
 	return m
 }
 
-func (m mqtt)GetMqttClient() (*service.Client, error){
+func (m mqtt) GetMqttClient() (*service.Client, error) {
 	conn := &service.Client{}
 	msg := message.NewConnectMessage()
 
@@ -49,5 +51,5 @@ func (m mqtt)GetMqttClient() (*service.Client, error){
 	if err != nil {
 		return nil, err
 	}
-	return conn,nil
+	return conn, nil
 }

@@ -13,11 +13,11 @@ import (
 	"net/http"
 	"testing"
 	"time"
-	
-	"tsl/tslframe/tsl/testdata/protoexample"
+
 	"github.com/golang/protobuf/proto"
 	"github.com/stretchr/testify/assert"
 	"github.com/ugorji/go/codec"
+	"tsl/tslframe/tsl/testdata/protoexample"
 )
 
 type FooStruct struct {

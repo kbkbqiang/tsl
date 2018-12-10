@@ -7,12 +7,11 @@ import (
 )
 
 var (
-	Logger   = logging.MustGetLogger("tsl_frame")
+	Logger = logging.MustGetLogger("tsl_frame")
 	format = logging.MustStringFormatter(
 		"%{color} %{level:.4s} %{id:03x} %{time:2006-01-02 15:04:05.000} %{shortfile}\t%{shortfunc}\t> %{message}%{color:reset}",
 	)
 )
-
 
 func init() {
 	backend2 := logging.NewLogBackend(os.Stdout, "", 0)
