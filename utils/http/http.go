@@ -34,6 +34,26 @@ func Post(url string, contentType string, body io.Reader) (string, error) {
 	return string(respBody), nil
 }
 
+// 返回请求的状态码
+func GetResponseStatusByPost(url string, contentType string, body io.Reader) string {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err) // 这里的err其实就是panic传入的内容
+			log.Logger.Error("http request failed --> ", url)
+			return
+		}
+	}()
+	resp, err := http.Post(url, contentType, body)
+	if err != nil {
+		log.Logger.Error("http response --> ", err.Error())
+		return ""
+	}
+	defer resp.Body.Close()
+
+	return resp.Status
+}
+
+
 func Get(url string) (string, error) {
 	defer func() {
 		if err := recover(); err != nil {
@@ -104,6 +124,7 @@ func PostForm(url string, data url.Values) (string, error) {
 	}
 	return string(respBody), nil
 }
+
 
 
 
