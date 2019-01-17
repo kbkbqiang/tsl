@@ -10,7 +10,7 @@ import (
 	"net/url"
 )
 
-var CLIENT http.Client
+
 
 func Post(url string, contentType string, body io.Reader) (string, error) {
 	defer func() {
@@ -62,6 +62,7 @@ func Get(url string) (string, error) {
 			return
 		}
 	}()
+
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Logger.Error("http response --> ", err.Error())
@@ -77,6 +78,7 @@ func Get(url string) (string, error) {
 }
 
 func OtherMethod(method string, contentType string, url string, body io.Reader, timeOut time.Duration) (string, error) {
+	var CLIENT http.Client
 	// 设置超时时间
 	CLIENT.Timeout = timeOut
 	req, err := http.NewRequest(method, url, body)
