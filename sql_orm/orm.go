@@ -4,6 +4,7 @@ import (
 	"github.com/go-xorm/xorm"
 	"time"
 	"github.com/Dark86Chen/tsl/log"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 
@@ -16,6 +17,7 @@ func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 			engine, err := e.createEngine()
 
 			if err != nil {
+				log.Logger.Error("create engine err --> ", err.Error())
 				return nil, err
 			}
 			e.Engine = engine
@@ -24,6 +26,7 @@ func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 		engine, err := e.createEngine()
 
 		if err != nil {
+			log.Logger.Error("create init engine err --> ", err.Error())
 			return nil, err
 		}
 		e.Engine = engine
