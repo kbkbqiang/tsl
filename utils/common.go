@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"github.com/Dark86Chen/tsl/utils/EAS"
 )
 
 // 时间转换 设置时区 东巴区
@@ -19,6 +20,10 @@ func GetNowTimeStamp() int {
 	return timeStamp
 }
 
+func GetNowTimeDate() string{
+	t := time.Now().In(cstZone)
+	return t.Format("2006-01-02 15:04:05")
+}
 
 // 获取当前时间戳到毫秒
 func GetNowMillisecondTimeStamp() int64 {
@@ -44,4 +49,13 @@ func GetUuid() string {
 	u := uuid.NewV1()
 	uid := u.String()
 	return strings.Replace(uid, "-", "", -1)
+}
+
+// 生成token
+func GenerateToken(tokenByte []byte) (token string, err error) {
+	token, err = EAS.Encrypt(tokenByte)
+	if err != nil {
+		return token, err
+	}
+	return token, nil
 }
