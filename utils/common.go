@@ -20,11 +20,19 @@ func GetNowTimeStamp() int {
 	return timeStamp
 }
 
+// 获取当前日期格式
 func GetNowTimeDate() string{
 	t := time.Now().In(cstZone)
 	return t.Format("2006-01-02 15:04:05")
 }
 
+func GetTimeStampByDate(date string) int64 {
+	t,err := time.ParseInLocation("2006-01-02 15:04:05", date, cstZone)
+	if err != nil {
+		return 0
+	}
+	return t.Unix()
+}
 // 获取当前时间戳到毫秒
 func GetNowMillisecondTimeStamp() int64 {
 	t := time.Now().In(cstZone)

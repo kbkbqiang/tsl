@@ -46,21 +46,27 @@ func Encrypt(encodeByte []byte) (cipherText string, err error){
 }
 
 func Decrypt(encodeStr string) (origByte []byte, err error) {
-
 	ckey, err := aes.NewCipher(key)
 	if nil != err {
 		fmt.Println("钥匙创建错误:", err)
 		return origByte, err
 	}
 
-	base64Str,_ := hex.DecodeString(encodeStr)
+	base64Str,err := hex.DecodeString(encodeStr)
+	if err != nil {
+		return origByte, err
+	}
 	base64Out := base64.URLEncoding.EncodeToString(base64Str)
 
 
 	fmt.Println("\n开始解码")
 	decrypter := cipher.NewCBCDecrypter(ckey, iv)
 
-	base64In, _ := base64.URLEncoding.DecodeString(base64Out)
+	base64In, err := base64.URLEncoding.DecodeString(base64Out)
+
+	if err != nil {
+		return origByte, err
+	}
 
 	in := make([]byte, len(base64In))
 
