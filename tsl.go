@@ -10,8 +10,7 @@ import (
 	"net/http"
 	"os"
 	"sync"
-
-	"tsl/frame/tsl/render"
+	"github.com/Dark86Chen/tsl/render"
 )
 
 const defaultMultipartMemory = 32 << 20 // 32 MB
