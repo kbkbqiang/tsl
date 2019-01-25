@@ -54,7 +54,7 @@ func GetNowMinutTimeStamp() int64 {
 
 // 生成uuid
 func GetUuid() string {
-	u := uuid.NewV1()
+	u,_ := uuid.NewV1()
 	uid := u.String()
 	return strings.Replace(uid, "-", "", -1)
 }
