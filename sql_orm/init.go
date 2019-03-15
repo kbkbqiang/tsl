@@ -15,6 +15,17 @@ type Engine struct {
 	State        bool   // 链接状态
 }
 
+
+type ShortEngine struct {
+	Host 		string  // ip
+	Port 	   	string  // 端口
+	User 	   	string  // 用户账号
+	Pwd 		string  // 密码
+	Charset 	string  // 编码
+	DriverName 	string  // mysql
+	DbName 		string  // 数据库名字
+}
+
 var (
 	DataSourceName string
 	DriverName	string
@@ -28,7 +39,7 @@ var (
 func init()  {
 	DataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s",
 		os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"),
-		os.Getenv("DB_POINT"), os.Getenv("DB_NAME"), os.Getenv("DB_CHARSET"))
+		os.Getenv("DB_PORT"), os.Getenv("DB_NAME"), os.Getenv("DB_CHARSET"))
 	DriverName = os.Getenv("Driver_Name")
 
 	MaxOpenConnsStr := os.Getenv("MaxOpenConns")

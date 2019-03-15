@@ -5,8 +5,10 @@ import (
 	"time"
 	"github.com/Dark86Chen/tsl/log"
 	_ "github.com/go-sql-driver/mysql"
+	"fmt"
 )
 
+var cstZone = time.FixedZone("CST", 8*3600)
 
 func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 	if EngineCon.Engine != nil {
@@ -48,9 +50,30 @@ func (e *Engine)createEngine() (engine *xorm.Engine, err error) {
 	engine.SetMaxIdleConns(e.MaxIdleConns)
 
 	// 设置时区
-	engine.TZLocation, err = time.LoadLocation(e.Location)
+	engine.TZLocation = cstZone //time.LoadLocation(e.Location)
 
 	e.State = true
+
+	if err != nil {
+		log.Logger.Warning("set orm engine location err --> ", err.Error())
+	}
+
+	return engine, nil
+}
+
+
+func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
+	ShortDataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s",
+		s.User, s.Pwd, s.Host,
+		s.Port, s.DbName, s.Charset)
+	engine, err = xorm.NewEngine(s.DriverName, ShortDataSourceName)
+	if err != nil {
+		return nil, err
+	}
+
+	engine.ShowSQL(true)
+	// 设置时区
+	engine.TZLocation = cstZone //time.LoadLocation(e.Location)
 
 	if err != nil {
 		log.Logger.Warning("set orm engine location err --> ", err.Error())
