@@ -74,6 +74,7 @@ func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
 
 	pingState := make(chan bool)
 
+	defer close(pingState)
 	go func() {
 		if err := engine.Ping(); err != nil {
 			log.Logger.Error("connection db error --> ", err.Error())
