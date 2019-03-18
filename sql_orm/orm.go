@@ -6,6 +6,7 @@ import (
 	"github.com/Dark86Chen/tsl/log"
 	_ "github.com/go-sql-driver/mysql"
 	"fmt"
+	"github.com/pkg/errors"
 )
 
 var cstZone = time.FixedZone("CST", 8*3600)
@@ -71,10 +72,29 @@ func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
 		return nil, err
 	}
 
-	if err := engine.Ping(); err != nil {
-		log.Logger.Error("connection db error --> ", err.Error())
+	pingState := make(chan bool)
+
+	go func() {
+		if err := engine.Ping(); err != nil {
+			log.Logger.Error("connection db error --> ", err.Error())
+		}
+		pingState <- true
+	}()
+
+	time.AfterFunc(5 * time.Second, func() {
+		pingState <- false
+	})
+
+	select {
+		case state := <-pingState:
+			if state == false {
+				return nil, errors.New("connection db error")
+			} else {
+				goto END
+			}
 	}
 
+	END:
 	engine.ShowSQL(true)
 	// 设置时区
 	engine.TZLocation = cstZone //time.LoadLocation(e.Location)
