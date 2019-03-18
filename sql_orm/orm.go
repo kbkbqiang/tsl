@@ -71,6 +71,10 @@ func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
 		return nil, err
 	}
 
+	if err := engine.Ping(); err != nil {
+		log.Logger.Error("connection db error --> ", err.Error())
+	}
+
 	engine.ShowSQL(true)
 	// 设置时区
 	engine.TZLocation = cstZone //time.LoadLocation(e.Location)
