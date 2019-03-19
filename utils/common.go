@@ -53,6 +53,16 @@ func GetNowMinutTimeStamp() int64 {
 	return int64(timeStamp)
 }
 
+// 时间戳转换日期
+func GetDateByTimeStamp(timeStamp int64) (date string, err error){
+	secondTimeStamp := strconv.FormatInt(timeStamp, 10)
+	i, err := strconv.ParseInt(secondTimeStamp[:10],10, 64)
+	if err != nil {
+		return date, err
+	}
+	t := time.Unix(i, 0)
+	return t.Format("2006-01-02 15:04:05"), nil
+}
 
 // 生成uuid
 func GetUuid() string {

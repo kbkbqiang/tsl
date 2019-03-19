@@ -106,7 +106,7 @@ func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
 	// 设置时区
 	engine.DatabaseTZ = time.Local // 必须
 	engine.TZLocation = time.Local // 必须
-	
+
 	engine.TZLocation,_ = time.LoadLocation("Asia/Shanghai")
 	engine.SetTZLocation(engine.TZLocation)
 	if err != nil {
