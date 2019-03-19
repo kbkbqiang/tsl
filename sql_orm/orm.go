@@ -51,10 +51,13 @@ func (e *Engine)createEngine() (engine *xorm.Engine, err error) {
 	engine.SetMaxIdleConns(e.MaxIdleConns)
 
 	// 设置时区
-	engine.SetTZLocation(cstZone)
-	engine.SetTZDatabase(cstZone)
-	//engine.TZLocation = cstZone //time.LoadLocation(e.Location)
-
+	engine.DatabaseTZ = time.Local // 必须
+	engine.TZLocation = time.Local // 必须
+	//engine.SetTZLocation(cstZone)
+	//engine.SetTZDatabase(cstZone)
+	//engine.TZLocation,_ = time.LoadLocation("Asia/Shanghai") // cstZone //
+	//engine.SetTZLocation(engine.TZLocation)
+	//engine.SetTZDatabase(engine.TZLocation)
 	e.State = true
 
 	if err != nil {
@@ -101,9 +104,11 @@ func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
 	END:
 	engine.ShowSQL(true)
 	// 设置时区
-	engine.SetTZLocation(cstZone)
-	engine.SetTZDatabase(cstZone)
-
+	engine.DatabaseTZ = time.Local // 必须
+	engine.TZLocation = time.Local // 必须
+	
+	engine.TZLocation,_ = time.LoadLocation("Asia/Shanghai")
+	engine.SetTZLocation(engine.TZLocation)
 	if err != nil {
 		log.Logger.Warning("set orm engine location err --> ", err.Error())
 	}

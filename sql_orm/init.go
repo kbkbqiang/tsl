@@ -23,7 +23,7 @@ type ShortEngine struct {
 	Pwd 		string  // 密码
 	Charset 	string  // 编码
 	DriverName 	string  // mysql
-	DbName 		string  // 数据库名字
+	DbName		string  // 数据库名字
 }
 
 var (
