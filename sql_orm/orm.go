@@ -82,7 +82,7 @@ func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
 		pingState <- true
 	}()
 
-	time.AfterFunc(5 * time.Second, func() {
+	t := time.AfterFunc(5 * time.Second, func() {
 		pingState <- false
 	})
 
@@ -91,6 +91,7 @@ func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
 			if state == false {
 				return nil, errors.New("connection db error")
 			} else {
+				t.Stop()
 				goto END
 			}
 	}
