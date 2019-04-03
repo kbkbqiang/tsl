@@ -60,7 +60,7 @@ func GetDateByTimeStamp(timeStamp int64) (date string, err error){
 	if err != nil {
 		return date, err
 	}
-	t := time.Unix(i, 0)
+	t := time.Unix(i, 0).In(cstZone)
 	return t.Format("2006-01-02 15:04:05"), nil
 }
 

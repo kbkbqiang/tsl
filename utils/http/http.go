@@ -77,6 +77,35 @@ func Get(url string) (string, error) {
 	return string(respBody), nil
 }
 
+func RequestByHeader(url string, method string, headerMap map[string]string, body io.Reader) (string, error) {
+	var CLIENT http.Client
+	req, err := http.NewRequest(method, url, body)
+	if err != nil {
+		return "", err
+	}
+
+	for k, v := range headerMap {
+		req.Header.Set(k, v)
+	}
+
+	resp, err := CLIENT.Do(req)
+
+	if err != nil {
+		log.Logger.Error("http response --> ", err.Error())
+		return "", err
+	}
+
+	defer resp.Body.Close()
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Logger.Error("read http respBody --> ", err.Error())
+		return "", err
+	}
+
+	return string(respBody), nil
+}
+
 func OtherMethod(method string, contentType string, url string, body io.Reader, timeOut time.Duration) (string, error) {
 	var CLIENT http.Client
 	// 设置超时时间
