@@ -156,7 +156,33 @@ func PostForm(url string, data url.Values) (string, error) {
 	return string(respBody), nil
 }
 
+func RequestByHeaderAndTime(url string, method string, headerMap map[string]string, body io.Reader, timeOut time.Duration) (string, error) {
+	var CLIENT http.Client
+	// 设置超时时间
+	CLIENT.Timeout = timeOut
+	req, err := http.NewRequest(method, url, body)
+	if err != nil {
+		return "", err
+	}
 
+	for k, v := range headerMap {
+		req.Header.Set(k, v)
+	}
 
+	resp, err := CLIENT.Do(req)
 
+	if err != nil {
+		log.Logger.Error("http response --> ", err.Error())
+		return "", err
+	}
 
+	defer resp.Body.Close()
+
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Logger.Error("read http respBody --> ", err.Error())
+		return "", err
+	}
+
+	return string(respBody), nil
+}

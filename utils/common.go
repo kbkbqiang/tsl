@@ -102,3 +102,17 @@ func DecHex(n int64) string {
 	}
 	return s
 }
+
+func GetDateFormat(timeStamp int64,formatString string) (date string, err error) {
+	secondTimeStamp := strconv.FormatInt(timeStamp, 10)
+	i, err := strconv.ParseInt(secondTimeStamp[:10],10, 64)
+	if err != nil {
+		return date, err
+	}
+	t := time.Unix(i, 0).In(cstZone)
+	switch formatString {
+	case "YYYYMMDD":
+		return t.Format("20060102"), nil
+	}
+	return t.Format("2006-01-02 15:04:05"), nil
+}
