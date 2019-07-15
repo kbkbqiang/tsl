@@ -59,7 +59,7 @@ func Decrypt(encodeStr string) (origByte []byte, err error) {
 	base64Out := base64.URLEncoding.EncodeToString(base64Str)
 
 
-	fmt.Println("\n开始解码")
+	//fmt.Println("\n开始解码")
 	decrypter := cipher.NewCBCDecrypter(ckey, iv)
 
 	base64In, err := base64.URLEncoding.DecodeString(base64Out)
@@ -72,13 +72,13 @@ func Decrypt(encodeStr string) (origByte []byte, err error) {
 
 	decrypter.CryptBlocks(in, base64In)
 
-	fmt.Println("解密后的字节：", in)
+	//fmt.Println("解密后的字节：", in)
 
 	// 去除PKCS7补码
 	in = UnPKCS7Padding(in)
 
-	fmt.Println("去PKCS7补码：", in)
-	fmt.Println("解密：", string(in))
+	//fmt.Println("去PKCS7补码：", in)
+	//fmt.Println("解密：", string(in))
 	return in,nil
 }
 

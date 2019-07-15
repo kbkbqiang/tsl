@@ -45,8 +45,7 @@ func (e *Engine)createEngine() (engine *xorm.Engine, err error) {
 		return nil, err
 	}
 	engine.ShowSQL(true)
-	engine.SetMaxOpenConns(10)
-
+	//engine.SetMaxOpenConns(1000)
 	engine.SetMaxOpenConns(e.MaxOpenConns)
 	engine.SetMaxIdleConns(e.MaxIdleConns)
 

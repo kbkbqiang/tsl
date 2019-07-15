@@ -29,7 +29,7 @@ type ShortEngine struct {
 var (
 	DataSourceName string
 	DriverName	string
-	EngineCon = Engine{MaxOpenConns: 100, MaxIdleConns: 100, Location: "Asia/Shanghai"}
+	EngineCon = Engine{MaxOpenConns: 1000, MaxIdleConns: 1000, Location: "Asia/Shanghai"}
 	MaxOpenConns int
 	MaxIdleConns int
 	Location  	 string
