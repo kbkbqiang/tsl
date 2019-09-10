@@ -13,6 +13,11 @@ import (
 // 时间转换 设置时区 东巴区
 var cstZone = time.FixedZone("CST", 8*3600)
 
+func init()  {
+	time.Local = cstZone
+}
+
+
 // 获取当前时间戳到秒
 func GetNowTimeStamp() int {
 	t := time.Now().In(cstZone)
