@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
+func (e Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 	if EngineCon.Engine != nil {
 		if err := EngineCon.Engine.Ping(); err != nil {
 			// 关闭原来的链接
@@ -21,10 +21,7 @@ func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 				log.Logger.Error("create engine err --> ", err.Error())
 				return nil, err
 			}
-			e.Engine = engine
 			EngineCon.Engine = engine
-		} else {  // 把全局的Engine带回给进来的engine
-			e.Engine = EngineCon.Engine
 		}
 	} else {
 		engine, err := e.createEngine()
@@ -33,11 +30,11 @@ func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 			log.Logger.Error("create init engine err --> ", err.Error())
 			return nil, err
 		}
-		e.Engine = engine
+
 		EngineCon.Engine = engine
 	}
 
-	return e.Engine, nil
+	return EngineCon.Engine, nil
 }
 
 
