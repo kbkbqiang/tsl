@@ -10,7 +10,7 @@ import (
 )
 
 func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
-	if e.Engine != nil {
+	if EngineCon.Engine != nil {
 		if err := e.Engine.Ping(); err != nil {
 			// 关闭原来的链接
 			e.Engine.Close()
@@ -22,6 +22,7 @@ func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 				return nil, err
 			}
 			e.Engine = engine
+			EngineCon.Engine = engine
 		}
 	} else {
 		engine, err := e.createEngine()
@@ -31,6 +32,7 @@ func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 			return nil, err
 		}
 		e.Engine = engine
+		EngineCon.Engine = engine
 	}
 
 	return e.Engine, nil
