@@ -11,9 +11,9 @@ import (
 
 func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 	if EngineCon.Engine != nil {
-		if err := e.Engine.Ping(); err != nil {
+		if err := EngineCon.Engine.Ping(); err != nil {
 			// 关闭原来的链接
-			e.Engine.Close()
+			EngineCon.Engine.Close()
 
 			engine, err := e.createEngine()
 
@@ -23,6 +23,8 @@ func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 			}
 			e.Engine = engine
 			EngineCon.Engine = engine
+		} else {  // 把全局的Engine带回给进来的engine
+			e.Engine = EngineCon.Engine
 		}
 	} else {
 		engine, err := e.createEngine()
