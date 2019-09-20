@@ -5,6 +5,7 @@ import (
 	"os"
 	"strconv"
 	"github.com/go-xorm/xorm"
+	"time"
 )
 
 type Engine struct {
@@ -35,8 +36,10 @@ var (
 	Location  	 string
 	Err			error
 )
+var cstZone = time.FixedZone("CST", 8*3600)
 
 func init()  {
+	time.Local = cstZone
 	DataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s",
 		os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"),
 		os.Getenv("DB_PORT"), os.Getenv("DB_NAME"), os.Getenv("DB_CHARSET"))

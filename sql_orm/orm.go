@@ -9,8 +9,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-var cstZone = time.FixedZone("CST", 8*3600)
-
 func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
 	if EngineCon.Engine != nil {
 		if err := e.Engine.Ping(); err != nil {
@@ -50,8 +48,8 @@ func (e *Engine)createEngine() (engine *xorm.Engine, err error) {
 	engine.SetMaxIdleConns(e.MaxIdleConns)
 
 	// 设置时区
-	engine.DatabaseTZ = time.Local // 必须
-	engine.TZLocation = time.Local // 必须
+	engine.DatabaseTZ = cstZone // 必须
+	engine.TZLocation = cstZone // 必须
 	//engine.SetTZLocation(cstZone)
 	//engine.SetTZDatabase(cstZone)
 	//engine.TZLocation,_ = time.LoadLocation("Asia/Shanghai") // cstZone //
@@ -103,8 +101,8 @@ func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
 	END:
 	engine.ShowSQL(true)
 	// 设置时区
-	engine.DatabaseTZ = time.Local // 必须
-	engine.TZLocation = time.Local // 必须
+	engine.DatabaseTZ = cstZone // 必须
+	engine.TZLocation = cstZone // 必须
 
 	engine.TZLocation,_ = time.LoadLocation("Asia/Shanghai")
 	engine.SetTZLocation(engine.TZLocation)
