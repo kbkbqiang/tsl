@@ -10,7 +10,7 @@ import (
 )
 
 func (e *Engine)GetOrmEngine() (engine *xorm.Engine, err error) {
-	if EngineCon.Engine != nil {
+	if e.Engine != nil {
 		if err := e.Engine.Ping(); err != nil {
 			// 关闭原来的链接
 			e.Engine.Close()
