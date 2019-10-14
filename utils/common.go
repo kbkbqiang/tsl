@@ -34,6 +34,11 @@ func GetNowTimeDate() string{
 	return t.Format("2006-01-02 15:04:05")
 }
 
+func GetNowTimeDateByFormat(format string) string{
+	t := time.Now().In(cstZone)
+	return t.Format(format)
+}
+
 func GetTimeStampByDate(date string) int64 {
 	t,err := time.ParseInLocation("2006-01-02 15:04:05", date, cstZone)
 	if err != nil {
