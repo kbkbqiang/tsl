@@ -8,6 +8,7 @@ import (
 	"github.com/Dark86Chen/tsl/utils/EAS"
 	"log"
 	"fmt"
+	"math/rand"
 )
 
 // 时间转换 设置时区 东巴区
@@ -121,4 +122,15 @@ func GetDateFormat(timeStamp int64,formatString string) (date string, err error)
 		return t.Format("20060102"), nil
 	}
 	return t.Format("2006-01-02 15:04:05"), nil
+}
+
+func GetRandCode(codeLen int) (code string) {
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < codeLen; i++ {
+		tmp := rand.Intn(10)
+		tmpStr := strconv.Itoa(tmp)
+		code = code + tmpStr
+	}
+
+	return code
 }
