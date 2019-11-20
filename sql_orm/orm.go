@@ -43,6 +43,33 @@ func (e *Engine)createEngine() (engine *xorm.Engine, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	pingState := make(chan bool)
+
+	defer close(pingState)
+	go func() {
+		if err := engine.Ping(); err != nil {
+			log.Logger.Error("connection db error --> ", err.Error())
+		}
+		pingState <- true
+	}()
+
+	t := time.AfterFunc(5 * time.Second, func() {
+		pingState <- false
+	})
+
+	select {
+	case state := <-pingState:
+		if state == false {
+			return nil, errors.New("connection db error")
+		} else {
+			t.Stop()
+			goto END
+		}
+	}
+
+	END:
+
 	engine.ShowSQL(true)
 	//engine.SetMaxOpenConns(1000)
 	engine.SetMaxOpenConns(e.MaxOpenConns)
