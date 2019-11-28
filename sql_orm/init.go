@@ -40,9 +40,9 @@ var cstZone = time.FixedZone("CST", 8*3600)
 
 func init()  {
 	time.Local = cstZone
-	DataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s",
+	DataSourceName = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&loc=%s",
 		os.Getenv("DB_USERNAME"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"),
-		os.Getenv("DB_PORT"), os.Getenv("DB_NAME"), os.Getenv("DB_CHARSET"))
+		os.Getenv("DB_PORT"), os.Getenv("DB_NAME"), os.Getenv("DB_CHARSET"), "Asia%2FShanghai")
 	DriverName = os.Getenv("Driver_Name")
 
 	MaxOpenConnsStr := os.Getenv("MaxOpenConns")
