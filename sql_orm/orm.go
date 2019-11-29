@@ -94,9 +94,9 @@ func (e *Engine)createEngine() (engine *xorm.Engine, err error) {
 
 
 func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
-	ShortDataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s",
+	ShortDataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&loc=%s",
 		s.User, s.Pwd, s.Host,
-		s.Port, s.DbName, s.Charset)
+		s.Port, s.DbName, s.Charset, "Asia%2FShanghai")
 	engine, err = xorm.NewEngine(s.DriverName, ShortDataSourceName)
 	if err != nil {
 		return nil, err
