@@ -9,6 +9,8 @@ import (
 	"log"
 	"fmt"
 	"math/rand"
+	"bytes"
+	"encoding/binary"
 )
 
 // 时间转换 设置时区 东巴区
@@ -138,4 +140,16 @@ func GetRandCode(codeLen int) (code string) {
 	}
 
 	return code
+}
+
+func GenerateKey() uint64 {
+	u2,_ := uuid.NewV1()
+	b := u2.Bytes()
+	buf  :=  bytes .NewBuffer(b)
+
+	var x uint64
+
+	binary.Read(buf, binary.BigEndian, &x)
+
+	return x
 }
