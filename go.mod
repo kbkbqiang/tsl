@@ -3,6 +3,7 @@ module github.com/Dark86Chen/tsl
 go 1.12
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/go-redis/redis v6.15.6+incompatible
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/go-xorm/xorm v0.7.9
