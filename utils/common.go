@@ -51,6 +51,14 @@ func GetTimeStampByDate(date string) int64 {
 	return t.Unix()
 }
 
+func GetTimeStampByDateAndFormatStr(date string, formatStr string) int64 {
+	t,err := time.ParseInLocation(formatStr, date, cstZone)
+	if err != nil {
+		return 0
+	}
+	return t.Unix()
+}
+
 // 获取当前时间戳到毫秒
 func GetNowMillisecondTimeStamp() int64 {
 	t := time.Now().In(cstZone)
