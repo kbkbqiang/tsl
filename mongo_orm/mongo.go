@@ -86,6 +86,7 @@ func (p Pool)ping() bool {
 			log.Logger.Error("mongo ping error --> ", err.Error())
 			//return false
 			status <- false
+			return
 		}
 		status <- true
 	}()
@@ -96,7 +97,6 @@ func (p Pool)ping() bool {
 			return false
 		case v,_ := <- status:
 			return v
-
 		}
 	}
 	//return true
