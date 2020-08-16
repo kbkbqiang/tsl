@@ -12,9 +12,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo"
 	"context"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"time"
 	"github.com/Dark86Chen/tsl/log"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 func GetPool() (client *mongo.Client, err error) {
@@ -76,13 +76,28 @@ func (p *Pool)conn(options *options.ClientOptions) (err error) {
 }
 
 func (p Pool)ping() bool {
-	ctx, cancel := context.WithTimeout(context.Background(), 2 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
 	defer cancel()
 
-	if err := p.Client.Ping(ctx, readpref.Primary()); err != nil {
-		log.Logger.Error("mongo ping error --> ", err.Error())
-		return false
-	}
+	status := make(chan bool, 0)
+	go func() {
+		defer close(status)
+		if err := p.Client.Ping(ctx, readpref.Primary()); err != nil {
+			log.Logger.Error("mongo ping error --> ", err.Error())
+			//return false
+			status <- false
+		}
+		status <- true
+	}()
 
-	return true
+	for {
+		select {
+		case <- ctx.Done():
+			return false
+		case v,_ := <- status:
+			return v
+
+		}
+	}
+	//return true
 }
