@@ -16,6 +16,7 @@ import (
 	"strconv"
 	"sync"
 	"context"
+	"strings"
 )
 
 var (
@@ -31,6 +32,7 @@ type Pool struct {
 	PoolClientOptions *options.ClientOptions
 	KeepLiveTicker *time.Ticker
 	KeepLiveTime  time.Duration
+	Hosts []string
 }
 
 func init()  {
@@ -57,7 +59,13 @@ func init()  {
 		PoolCon.PoolClientOptions.SetMaxPoolSize(maxPoolSize)
 	}
 
-	PoolCon.PoolClientOptions.SetHosts([]string{"localhost:12000"})
+	if os.Getenv("MONGO_HOSTS") == "" {
+		PoolCon.Hosts = append(PoolCon.Hosts, "localhost:12000")
+	} else {
+		PoolCon.Hosts = strings.Split(os.Getenv("MONGO_HOSTS"), ";")
+	}
+
+	PoolCon.PoolClientOptions.SetHosts(PoolCon.Hosts)
 	PoolCon.PoolClientOptions.SetAuth(PoolCon.PoolAuth)
 	PoolCon.ClientStatus = false
 }
