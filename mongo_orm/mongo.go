@@ -15,6 +15,8 @@ import (
 	"time"
 	"github.com/Dark86Chen/tsl/log"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"os"
+	"strconv"
 )
 
 func GetPool() (client *mongo.Client, err error) {
@@ -70,7 +72,12 @@ func (p *Pool)conn(options *options.ClientOptions) (err error) {
 	p.ClientStatus = true
 
 	// TODO keep live
-	go keepLive(2 * time.Second)
+	keepLiveTime := os.Getenv("keepLiveSecond")
+	keepLiveSecond, _ := strconv.Atoi(keepLiveTime)
+	if keepLiveSecond == 0 {
+		keepLiveSecond = 20
+	}
+	go keepLive(time.Duration(keepLiveSecond) * time.Second)
 
 	return nil
 }
