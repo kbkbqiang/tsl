@@ -43,7 +43,16 @@ func keepLive(num time.Duration) {
 			log.Logger.Info("mongo status is live ")
 		}
 	}
-	GetPool()
+	client, err := GetPool()
+	if err != nil {
+		log.Logger.Errorf("connect mongo error --> %s", err.Error())
+		return
+	} else {
+		log.Logger.Infof("reconnect mongo success!")
+	}
+
+	PoolCon.Client = client
+	return
 }
 
 func (p *Pool)conn(options *options.ClientOptions) (err error) {
