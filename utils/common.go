@@ -9,6 +9,10 @@ import (
 	"log"
 	"fmt"
 	"math/rand"
+	"bytes"
+	"encoding/binary"
+	"crypto/md5"
+	"encoding/hex"
 )
 
 // 时间转换 设置时区 东巴区
@@ -41,6 +45,14 @@ func GetNowTimeDateByFormat(format string) string{
 
 func GetTimeStampByDate(date string) int64 {
 	t,err := time.ParseInLocation("2006-01-02 15:04:05", date, cstZone)
+	if err != nil {
+		return 0
+	}
+	return t.Unix()
+}
+
+func GetTimeStampByDateAndFormatStr(date string, formatStr string) int64 {
+	t,err := time.ParseInLocation(formatStr, date, cstZone)
 	if err != nil {
 		return 0
 	}
@@ -138,4 +150,22 @@ func GetRandCode(codeLen int) (code string) {
 	}
 
 	return code
+}
+
+func GenerateKey() uint64 {
+	u2,_ := uuid.NewV1()
+	b := u2.Bytes()
+	buf  :=  bytes .NewBuffer(b)
+
+	var x uint64
+
+	binary.Read(buf, binary.BigEndian, &x)
+
+	return x
+}
+
+func GetMd5Str(str string) string {
+	h := md5.New()
+	h.Write([]byte(str))
+	return hex.EncodeToString(h.Sum(nil))
 }

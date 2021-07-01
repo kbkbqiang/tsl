@@ -166,7 +166,7 @@ func RequestByHeaderAndTime(url string, method string, headerMap map[string]stri
 	}
 
 	for k, v := range headerMap {
-		req.Header.Set(k, v)
+		req.Header.Add(k, v)
 	}
 
 	resp, err := CLIENT.Do(req)

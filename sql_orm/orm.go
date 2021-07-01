@@ -43,6 +43,33 @@ func (e *Engine)createEngine() (engine *xorm.Engine, err error) {
 	if err != nil {
 		return nil, err
 	}
+
+	pingState := make(chan bool)
+
+	defer close(pingState)
+	go func() {
+		if err := engine.Ping(); err != nil {
+			log.Logger.Error("connection db error --> ", err.Error())
+		}
+		pingState <- true
+	}()
+
+	t := time.AfterFunc(5 * time.Second, func() {
+		pingState <- false
+	})
+
+	select {
+	case state := <-pingState:
+		if state == false {
+			return nil, errors.New("connection db error")
+		} else {
+			t.Stop()
+			goto END
+		}
+	}
+
+	END:
+
 	engine.ShowSQL(true)
 	//engine.SetMaxOpenConns(1000)
 	engine.SetMaxOpenConns(e.MaxOpenConns)
@@ -67,9 +94,9 @@ func (e *Engine)createEngine() (engine *xorm.Engine, err error) {
 
 
 func (s *ShortEngine)GetShortEngine() (engine *xorm.Engine, err error) {
-	ShortDataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s",
+	ShortDataSourceName := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&loc=%s",
 		s.User, s.Pwd, s.Host,
-		s.Port, s.DbName, s.Charset)
+		s.Port, s.DbName, s.Charset, "Asia%2FShanghai")
 	engine, err = xorm.NewEngine(s.DriverName, ShortDataSourceName)
 	if err != nil {
 		return nil, err
